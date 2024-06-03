@@ -1,0 +1,59 @@
+{% extends "root.html" %}
+{% block content %}
+    
+<div class="container center-align">
+    <div class="row">
+        <h1>Plant Montitor Remote Controller</h1>
+    </div>
+    <div id="controller container" class="container" style="width:50%">
+            <div class="row">
+                <h2>Pump</h2>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    <a href="api/start_pump" class="waves-effect waves-light btn-large">Start Pump</a>
+                </div>
+                <div class="col s6">
+                    <a href="api/stop_pump" class="waves-effect waves-light btn-large">Stop Pump</a>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Valves</h2>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <h5>Valve 1</h5>
+                </div>
+                <div class="col s4">
+                    <h5>Valve 2</h5>
+                </div>
+                <div class="col s4">
+                    <h5>Valve 3</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="api/open_valve/1" class="waves-effect waves-light btn-large">Open</a>
+                </div>
+                <div class="col s4">
+                    <a href="api/open_valve/2" class="waves-effect waves-light btn-large">Open</a>
+                </div>
+                <div class="col s4">
+                    <a href="api/open_valve/3" class="waves-effect waves-light btn-large">Open</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="api/close_valve/1" class="waves-effect waves-light btn-large">Close Valve 1</a>
+                </div>
+                <div class="col s4">
+                    <a href="api/close_valve/2" class="waves-effect waves-light btn-large">Close Valve 2</a>
+                </div>
+                <div class="col s4">
+                    <a href="api/close_valve/3" class="waves-effect waves-light btn-large">CLose Valve 3</a>
+                </div>
+            </div>
+        
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "root.html" %}
+{% block content %}
+<form id="add_plant_form" class="container" action="">
+    <div class="row align center">
+        <div class="col s12">
+            <h2>Add Plant</h2>
+        </div>
+    </div>
+    <div id="input form" class="row align center">
+
+        <div class="input-field col s6">
+            <input placeholder="insert plant name" name="plant_name" id="plant_name" type="text" class="validate">
+            <label for="plant_name">Plant Name</label>
+        </div>
+
+        <div id="Radio Buttons" class="col s6">
+            <label for="Radio Buttons">
+                <span>Sensor Number</span>
+            </label>
+            <p>
+            <label>
+                <input name="sensor_no" type="radio" value="1" checked />
+                <span>1</span>
+            </label>
+            </p>
+            <p>
+            <label>
+                <input name="sensor_no" type="radio" value="2"/>
+                <span>2</span>
+            </label>
+            </p>
+            <p>
+            <label>
+                <input name="sensor_no" type="radio"  value="3"/>
+                <span>3</span>
+            </label>
+            </p>
+        </div>
+        
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit" name="action">Add plant</button>
+        </div>
+    </div>        
+    </form>
+    <script>
+        console.log("mylog");
+        
+        function getData(form) {
+            var formData = new FormData(form);
+            
+            console.log(formData);
+            var plant_name = formData.get('plant_name');
+            var sensor_no = formData.get('sensor_no');
+            var api_request_text = "/api/add_plant/".concat(sensor_no,"/",plant_name);
+            fetch(api_request_text).then(() => {window.location.href = '/monitor'});
+        }
+        
+        document.getElementById("add_plant_form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            getData(e.target);
+        });
+    </script>
+{% endblock %}
+
