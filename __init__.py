@@ -1,27 +1,29 @@
 from flask import Flask, render_template, redirect, url_for
 import os
 
-from . import plant_monitor as pm
 
-def create_app():
+
+def create_app(test=False):
 
     app = Flask(__name__)
-    app.config['DATABASE'] = 'plant_waterer/plant_monitor.sqlite'
-
-    from . import db
-    db.init_app(app)
-
-    monitor = pm.PlantMonitor()
-
-
+    # load in the test data if running in test mode
+    if test:
+        import plant_waterer.test_data.test_data_monitor as pm
+        monitor = pm.test_data_monitor()
+    else:
+        from . import plant_monitor as pm
+        monitor = pm.PlantMonitor()
+    
     @app.route("/")
     def index():
         return render_template("main.html")
 
     @app.route("/monitor")
     def webpage_monitor():
-        plant_information = monitor.get_status()
-        return render_template("monitor.html", plant_info=plant_information)
+
+        sensors, valves, pump = monitor.get_status()
+        
+        return render_template("monitor.html", sensors=sensors, valves=valves, pump=pump)
 
     @app.route("/controller")
     def webpage_controller():

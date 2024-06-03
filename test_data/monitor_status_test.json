@@ -1,0 +1,13 @@
+{
+    "sensors" : [
+        {"sensor_no": 1, "plant_name": "Monstera", "moisture": 2.2, "last_watered": "2024-06-03T16:51:34", "moisture_threshold" : 1.5},
+        {"sensor_no": 2, "plant_name": "Fiddle Leaf Fig", "moisture": 1.3, "last_watered": "2024-06-03T14:32:15", "moisture_threshold" : 2.5},
+        {"sensor_no": 3, "plant_name": "Ivy", "moisture": 3.0, "last_watered": "2024-06-03T10:25:31", "moisture_threshold" : 3}
+    ],
+    "valves" : [
+        {"number": 1, "open": "True"},
+        {"number": 2, "open": "False"},
+        {"number": 3, "open": "False"}
+    ],
+    "pump": "pump", "running": "False"
+}

@@ -5,21 +5,17 @@
     <table id="plant_status_table" class="responsive-table highlight">
         <thead>
             <tr>
-                <th>Plant Name</th>
-                <th>Moisture Reading</th>
-                <th>Actions</th>
+                {%for column in sensors[0].keys() %}
+                <th>{{ column }}</th>
+                {%endfor%}
             </tr>
         </thead>
         <tbody>
-            {%for plant, props in plant_info.items()%}
+            {%for sensor_info in sensors %}
             <tr>
-                {%for prop_name, prop_value in props.items()%}
-                <td>{{prop_value}}</td>
+                {%for column_name, column_value in sensor_info.items()%}
+                <td>{{column_value}}</td>
                 {%endfor%}
-                <form action="/api/{{plant}}/water" method="post">
-                <td><input id="{{plant}}_water" type="submit" value="Water" {{ 'disabled' if props.name == None else '' }}></td>
-                </form>
-                <td><a class="btn waves-effect waves-light" href="/add_plant" ><input id="{{plant}}_water" type="submit" value={{ "Add Plant" if props.name == None else "Edit" }}> </a></td>
             </tr>
             {%endfor%}
         </tbody>
