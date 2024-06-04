@@ -8,12 +8,17 @@
     </div>
     <div id="input form" class="row align center">
 
-        <div class="input-field col s6">
+        <div class="input-field col s4">
             <input placeholder="insert plant name" name="plant_name" id="plant_name" type="text" class="validate">
             <label for="plant_name">Plant Name</label>
         </div>
 
-        <div id="Radio Buttons" class="col s6">
+        <div class="input-field col s4">
+            <input placeholder="(between 0 and 3.3)" name="moisture_threshold" id="moisture_threshold" type="text" class="validate">
+            <label for="moisture_threshold">Moisture Threshold</label>
+        </div>
+
+        <div id="Radio Buttons" class="col s4">
             <label for="Radio Buttons">
                 <span>Sensor Number</span>
             </label>
@@ -51,7 +56,8 @@
             console.log(formData);
             var plant_name = formData.get('plant_name');
             var sensor_no = formData.get('sensor_no');
-            var api_request_text = "/api/add_plant/".concat(sensor_no,"/",plant_name);
+            var moisture_threshold = formData.get('moisture_threshold')
+            var api_request_text = "/api/add_plant/".concat(sensor_no,"/",plant_name,"/",moisture_threshold);
             fetch(api_request_text).then(() => {window.location.href = '/monitor'});
         }
         

@@ -10,9 +10,15 @@ CREATE TABLE log (
 );
 
 CREATE TABLE plants (
-    sensor_id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    desired_moisture FLOAT NOT NULL,
+    sensor_no INTEGER PRIMARY KEY,
+    plant_name TEXT NOT NULL,
     moisture FLOAT NOT NULL,
-    last_measured TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    last_watered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    moisture_threshold FLOAT NOT NULL
 );
+
+INSERT INTO plants (plant_name, moisture, last_watered, moisture_threshold)
+VALUES
+("empty", 0, "2024-06-04T13:47:26", 0),
+("empty", 0, "2024-06-04T13:47:26", 0),
+("empty", 0, "2024-06-04T13:47:26", 0);

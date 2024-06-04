@@ -1,24 +1,41 @@
 {% extends "root.html" %}
 {% block content %}
-<div class="container">
-<h2>Current Plants</h2>
-    <table id="plant_status_table" class="responsive-table highlight">
-        <thead>
-            <tr>
-                {%for column in sensors[0].keys() %}
-                <th>{{ column }}</th>
+<div class="container center-align">
+    <h2>Current Plants</h2>
+    <div class="row">
+        <table id="plant_status_table" class="responsive-table highlight">
+            <thead>
+                <tr>
+                    
+                    <th>Sensor Number</th>
+                    <th>Plant Name</th>
+                    <th>Moisture Reading</th>
+                    <th>Last Watered</th>
+                    <th>Moisture Threshold</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {%for plant in plants %}
+                <tr>
+                    {%for property_value in plant%}
+                    <td>{{property_value}}</td>
+                    {%endfor%}
+                    <td>
+                        <a class="waves-effect waves-light btn">Water</a>
+                    </td>
+                    <td>
+                        <a class="waves-effect waves-light btn">Edit</a>
+                    </td>
+                </tr>
                 {%endfor%}
-            </tr>
-        </thead>
-        <tbody>
-            {%for sensor_info in sensors %}
-            <tr>
-                {%for column_name, column_value in sensor_info.items()%}
-                <td>{{column_value}}</td>
-                {%endfor%}
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        
+            <a class="waves-effect waves-light btn" href="/add_plant">Add Plant</a>
+        
+    </div>  
 </div>
 {% endblock content %}

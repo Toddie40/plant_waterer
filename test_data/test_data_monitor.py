@@ -1,11 +1,13 @@
 import numpy as np
 import time
 import json
+import sqlite3
 
 class test_data_monitor:
 
-    def __init__(self):
+    def __init__(self, db_path):
         self.data_path = "./"
+        self.db_path = db_path
 
     def start_pump(self):
         print("Starting pump")
@@ -32,24 +34,40 @@ class test_data_monitor:
         print(f"closing valve {valve_no}")
         return True
 
-    def add_plant(self, name, sensor_no):
+    def add_plant(self, name, sensor_no, moisture_threshold):
         print(f"Adding plant: {name} to sensor: {sensor_no}")
+        db = sqlite3.connect(self.db_path)
+        cursor = db.cursor()
+        cursor.execute(f"UPDATE plants SET plant_name=?, moisture_threshold=? WHERE sensor_no=?;", (name, moisture_threshold, sensor_no))
+        db.commit()
+        db.close()
         return True
 
     def remove_plant(self, sensor_no):
         print(f"Removing plant from sensor: {sensor_no}")
+        # do sql shit
         return True    
 
     
     def get_status(self):
         print("getting current monitor status...")
-        with open("test_data/monitor_status_test.json", "r") as data_file:
-            
-            py_object = json.loads(data_file.read())
-            sensors = py_object['sensors']
-            valves = py_object['valves']
-            pump = py_object['pump'] 
-            return sensors, valves, pump
+        # get plant names and information from the database
+        
+        plant_info = []
+        valves = {}
+        pump = {}
+
+        with sqlite3.connect(self.db_path) as db:
+            cursor = db.cursor()
+            for sensor_no in range(1,4):
+                current_moisture = np.round(self.read_sensor(sensor_no), 2) # get the sensor information from the sensor and push to db
+                cursor.execute("UPDATE plants SET moisture=? WHERE sensor_no=?", (float(current_moisture), sensor_no))
+                db.commit()
+                cursor.execute("SELECT * FROM plants WHERE sensor_no=?", (sensor_no,))
+                plant_row_information = cursor.fetchone()
+                plant_info.append(plant_row_information)
+                print(plant_row_information)
+        return plant_info, valves, pump
             
     
     def water(self, plant_no):

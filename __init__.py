@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
-import os
+
 
 
 
@@ -9,11 +9,14 @@ def create_app(test=False):
     # load in the test data if running in test mode
     if test:
         import plant_waterer.test_data.test_data_monitor as pm
-        monitor = pm.test_data_monitor()
+        db_path = "plant_waterer_test.db"
+        monitor = pm.test_data_monitor(db_path)
     else:
         from . import plant_monitor as pm
-        monitor = pm.PlantMonitor()
+        db_path = "plant_waterer.db"
+        monitor = pm.PlantMonitor(db_path)
     
+
     @app.route("/")
     def index():
         return render_template("main.html")
@@ -21,9 +24,9 @@ def create_app(test=False):
     @app.route("/monitor")
     def webpage_monitor():
 
-        sensors, valves, pump = monitor.get_status()
+        plant_info, valves, pump = monitor.get_status()
         
-        return render_template("monitor.html", sensors=sensors, valves=valves, pump=pump)
+        return render_template("monitor.html", plants=plant_info, valves=valves, pump=pump)
 
     @app.route("/controller")
     def webpage_controller():
@@ -40,11 +43,11 @@ def create_app(test=False):
         info = monitor.get_status()
         return render_template("monitor.html", plant_info=info)
 
-    @app.route("/api/add_plant/<int:plant_no>/<string:plant_name>")
-    def api_add_plant(plant_no, plant_name):
-        monitor.add_plant(plant_name, plant_no)
-        info = monitor.get_status()
-        return render_template("monitor.html", plant_info=info)
+    @app.route("/api/add_plant/<int:plant_no>/<string:plant_name>/<float:moisture_threshold>")
+    def api_add_plant(plant_no, plant_name, moisture_threshold):
+        monitor.add_plant(plant_name, plant_no, moisture_threshold)
+        plant_info, valves, pump = monitor.get_status()
+        return render_template("monitor.html", plants=plant_info)
 
     @app.route("/api/start_pump")                                                                                                                                                            
     def api_start_pump():
